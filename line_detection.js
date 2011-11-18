@@ -65,7 +65,7 @@
   connectTheDots = function(points) {
     var i, j, lines, _ref, _ref2;
     lines = [];
-    for (i = 0, _ref = points.length - 2; 0 <= _ref ? i <= _ref : i >= _ref; 0 <= _ref ? i++ : i--) {
+    for (i = 0, _ref = points.length - 1; 0 <= _ref ? i < _ref : i > _ref; 0 <= _ref ? i++ : i--) {
       for (j = 1, _ref2 = points.length - i; 1 <= _ref2 ? j < _ref2 : j > _ref2; 1 <= _ref2 ? j++ : j--) {
         lines.push(new Line(points[i], points[i + j]));
       }
@@ -81,21 +81,12 @@
     return _.sortBy(points, function(point) {
       return vector.scalarProjection((new Line(line.p1, point)).toVector());
     });
-    /* 
-    
-    Een hogere score is beter. Tel alle scores bij elkaar op om de score van
-    een lijn door de verzameling van deze punten te bepalen. Verwijder nu het punt
-    met de laagste score uit consideredPoints en herbereken de score (alleen nodig
-    bij het punt dat na het verwijderde punt komt en het punt dat ervoor zit). Ga
-    door totdat de hoogste score is gevonden (*).
-    
-    */
   };
   lines = connectTheDots(points);
   console.log(lines);
   for (_i = 0, _len = lines.length; _i < _len; _i++) {
     line = lines[_i];
-    console.log('\n------------------------');
+    console.log('------------------------');
     console.log(line);
     console.log(sortPoints(line, points));
     console.log('========================\n');
