@@ -65,47 +65,55 @@ connectTheDots = (points) ->
   lines
 
 
-calcScoreAndRemovePoint = (line, points) ->
-  score = 0
-  
+calculateScores = (line, points) ->
   # Look at the line as a vector
-  vector = line.toVector()
+  lineVector = line.toVector()
+  
+  totalScore = 0
+  scores = ([] for i in Array points.length)
   
   # Sort points by the scalar projection of (the line from [line.p1] to [point] as vector) onto [vector]
   _.sortBy points, (point) ->
-      vector.scalarProjection (new Line line.p1, point).toVector()
+      lineVector.scalarProjection (new Line line.p1, point).toVector()
       
   # Walk through points pairwise
   for i in [0...points.length - 1]
-    v1 = vector.vectorProjection (new Line line.p1, points[i]).toVector()
-    v2 = vector.vectorProjection (new Line line.p1, points[i + 1]).toVector()
+    v1 = lineVector.vectorProjection (new Line line.p1, points[i]).toVector()
+    v2 = lineVector.vectorProjection (new Line line.p1, points[i + 1]).toVector()
     
-    p1 = new Point line.p1.x - v1.a, line.p1.y - v1.b 
-    p2 = new Point line.p1.x - v2.a, line.p1.y - v2.b
+    # Points projected on line
+    pp1 = new Point line.p1.x - v1.a, line.p1.y - v1.b 
+    pp2 = new Point line.p1.x - v2.a, line.p1.y - v2.b
     
-    for [a, b] in [[p2, points[i]], [p1, points[i + 1]]]    
-      s = (new Line a, b).toVector().scalarProjection vector
-      if s > lastS
-        pointToRemove = a # of b?
-      score += new Line a,b .lenght - s
-  
-  [score, points]
+    # Vectors from projected points to points
+    vectors = [(new Line pp2, points[i]).toVector(), (new Line pp1, points[i + 1]).toVector()]
+    
+    for vector, j in vectors
+      score = Math.sqr(vector.length()) / vector.scalarProjection lineVector
+      totalScore += score
+      scores[i + j].push score
+      
+  scores: scores
+  total:  totalScore
+      
   
 lines = connectTheDots points
-
-###
 scores = (calculateScores(line, points) for line in lines)
 
-for score in scores
-  console.log score[0], score[1]
+console.log lines
 
+for score in scores
+  console.log '::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'
+  console.log score.scores
+  console.log score.total
+
+###
 for line in lines
   console.log '------------------------------------------------------------------'
   console.log line
   console.log sortPoints line, points
   console.log '==================================================================\n'
 
-###
   
 #create some graphic image
 output = []
@@ -133,3 +141,5 @@ for op in output
   text += '\n'
 
 console.log(text)
+
+###
