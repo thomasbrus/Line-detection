@@ -82,3 +82,30 @@ for line in lines
   console.log line
   console.log sortPoints line, points
   console.log '========================\n'
+
+#create some graphic image
+output = []
+for i in [0...10]
+  row = []
+  for j in [0...10]
+    row.push ' '
+  output.push row
+
+for point in points
+  output[point.x][point.y] = '*'
+
+text = ' '
+for i in [0...10]
+  text += i
+text +=  '\n'
+
+i = 0
+for op in output
+  text += i++
+
+  for r in op
+    text += r
+
+  text += '\n'
+
+console.log(text)
