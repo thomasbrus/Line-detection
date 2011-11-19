@@ -44,6 +44,35 @@ class Vector
     scalar = Vector.dotProduct(@, other) / Vector.dotProduct(@, @)
     new Vector(@a * scalar, @b * scalar)
 
+class LineScore
+  
+  constructor: (@line, @points) ->
+    @points = _.sortBy points, (point) => @line.toVector().scalarProjection (new Line line.p1, point).toVector()
+    
+  calculate: ->
+    scores = []
+    
+    # Walk through points pairwise
+    for i in [0...points.length - 1]
+      v1 = @line.toVector().vectorProjection (new Line line.p1, points[i]).toVector()
+      v2 = @line.toVector().vectorProjection (new Line line.p1, points[i + 1]).toVector()
+
+      # Points projected on line
+      pp1 = new Point line.p1.x - v1.a, line.p1.y - v1.b 
+      pp2 = new Point line.p1.x - v2.a, line.p1.y - v2.b
+
+      # Vectors from projected points to points
+      vectors = [(new Line pp2, points[i]).toVector(), (new Line pp1, points[i + 1]).toVector()]
+      
+      for vector, j in vectors
+        scores.push point: points[i + j], score: Math.sqr(vector.length()) / vector.scalarProjection @line.toVector()
+
+    scores
+    
+  remove: (point) ->
+    @points = _.without points point
+    
+
 # Generate n random points
 points = for [1..n]
   new Point Math.randInt(paper.width), Math.randInt(paper.height)
@@ -64,13 +93,13 @@ connectTheDots = (points) ->
       lines.push new Line(points[i], points[i + j])
   lines
 
-
+###
 calculateScores = (line, points) ->
   # Look at the line as a vector
   lineVector = line.toVector()
   
-  totalScore = 0
-  scores = ([] for i in Array points.length)
+  total = 0
+  scores = []
   
   # Sort points by the scalar projection of (the line from [line.p1] to [point] as vector) onto [vector]
   _.sortBy points, (point) ->
@@ -90,22 +119,18 @@ calculateScores = (line, points) ->
     
     for vector, j in vectors
       score = Math.sqr(vector.length()) / vector.scalarProjection lineVector
-      totalScore += score
-      scores[i + j].push score
+      total += score
+      scores.push point: points[i + j], score: score
       
   scores: scores
-  total:  totalScore
-      
-  
-lines = connectTheDots points
-scores = (calculateScores(line, points) for line in lines)
+  total:  total
 
-console.log lines
+###
 
-for score in scores
-  console.log '::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::'
-  console.log score.scores
-  console.log score.total
+for line in connectTheDots points
+  console.log line
+  console.log (new LineScore line, points).calculate()
+
 
 ###
 for line in lines
