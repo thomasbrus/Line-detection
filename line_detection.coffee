@@ -20,7 +20,14 @@ class Point
 
 class Line
   constructor: (@p1, @p2) ->
-    
+  
+  length: ->
+    Math.sqrt Math.sqr(@p2.x - @p1.x) + Math.sqr(@p2.y - @p1.y)
+  
+  distanceTo: (point) ->
+    #distance = Vector.crossProduct(@toVector(), (new Line @p1, point).toVector()) / @length()
+    1
+  
   toVector: ->
     new Vector(@p2.x - @p1.x, @p2.y - @p1.y)
 
@@ -32,7 +39,10 @@ class Vector
   
   @dotProduct: (v1, v2) ->
     v1.a * v2.a + v1.b * v2.b
-    
+  
+  @crossProduct: (v1, v2) ->
+    v1.a * v2.b - v1.b * v2.a  
+  
   # Scalar projection of [other] onto [this]
   scalarProjection: (other) ->
     Vector.dotProduct(@, other) / @length()
@@ -41,7 +51,7 @@ class Vector
   vectorProjection: (other) ->
     scalar = Vector.dotProduct(@, other) / Vector.dotProduct(@, @)
     new Vector(@a * scalar, @b * scalar)
-
+  
 class LineScore
   
   constructor: (@line, @points) ->
@@ -52,33 +62,20 @@ class LineScore
       line.toVector().scalarProjection (new Line line.p1, point).toVector()
   
   calculate: ->
-    weakestPoint
-    lowestScore
     totalScore = 0
     
-    # Walk through points pairwise
+    # Walk through points
     for i in [0...@points.length - 1]
-      v1 = @line.toVector().vectorProjection (new Line line.p1, @points[i]).toVector()
-      v2 = @line.toVector().vectorProjection (new Line line.p1, @points[i + 1]).toVector()
-
-      # Points projected on line
-      pp1 = new Point line.p1.x - v1.a, line.p1.y - v1.b 
-      pp2 = new Point line.p1.x - v2.a, line.p1.y - v2.b
-
-      # Vectors from projected points to points
-      vectors = [(new Line pp2, points[i]).toVector(), (new Line pp1, @points[i + 1]).toVector()]
+      vector =  (new Line @points[i], @points[i + 1]).toVector()
+      scalar = @line.toVector().scalarProjection vector      
+      score = scalar / vector.length()
       
-      for vector, j in vectors
-        score = vector.scalarProjection(@line.toVector()) / Math.sqr vector.length()
-        
-        unless lowestScore? and score >= lowestScore
-          lowestScore = score
-          weakestPoint = @points[i + j]
-        
-        totalScore += score
-        
-    total:    totalScore / Math.sqrt @points.length
-    weakest:  weakestPoint
+      unless lowestScore? and score >= lowestScore
+        lowestScore = score
+                
+      totalScore += score
+      
+    totalScore
     
   removePoint: (point) ->
     @points = (p for p in @points when !_.isEqual p, point)
@@ -89,9 +86,9 @@ points = for [1..n]
 
 points = [
   new Point 0, 0
-  new Point 2, 8
-  new Point 6, 8
-  new Point 8, 0
+  new Point 4, 4
+  new Point 6, 0
+  new Point 10, 0
 ]
 
 # Find all (n choose 2) lines
@@ -103,19 +100,17 @@ connectTheDots = (points) ->
       lines.push new Line(points[i], points[i + j])
   lines
 
-for line in connectTheDots points
+for line in [new Line points[0], points[points.length - 1]] #connectTheDots points
   console.log '=========================================='
-  console.log 'Examaning line', line
+  console.log 'Checking line', line
   console.log '----------------------------------------\n'
   lineScore = new LineScore line, points
   
-  while lineScore.points.length > 2
-    result = lineScore.calculate()
+  while lineScore.points.length >= 2
+    score = lineScore.calculate()
     console.log 'Points', lineScore.points
-    console.log 'Score', result.total
-    console.log 'Weakest point', result.weakest
-    console.log ''
-    lineScore.removePoint result.weakest
+    console.log 'Score', score
+    lineScore.removePoint lineScore.points[1]
 
 ###
   
