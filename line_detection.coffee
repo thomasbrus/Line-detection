@@ -1,5 +1,7 @@
 _ = require 'underscore'
 
+{inspect} = require 'util'
+
 # Number of points
 n = 4
 
@@ -56,33 +58,52 @@ points = [
 # Find all (n choose 2) lines
 connectTheDots = (points) ->
   # Comprehension problems.. http://brehaut.net/blog/2011/coffeescript_comprehensions
-  lines = [] 
+  lines = []
   for i in [0...points.length - 1]
     for j in [1...points.length - i]
       lines.push new Line(points[i], points[i + j])
   lines
-  
-calculateScore = (line, point) ->
-  1
 
-sortPoints = (line, points) ->  
+
+calcScoreAndRemovePoint = (line, points) ->
+  score = 0
+  
   # Look at the line as a vector
   vector = line.toVector()
   
   # Sort points by the scalar projection of (the line from [line.p1] to [point] as vector) onto [vector]
   _.sortBy points, (point) ->
-      vector.scalarProjection((new Line line.p1, point).toVector())
-
-# Output all lines
+      vector.scalarProjection (new Line line.p1, point).toVector()
+      
+  # Walk through points pairwise
+  for i in [0...points.length - 1]
+    v1 = vector.vectorProjection (new Line line.p1, points[i]).toVector()
+    v2 = vector.vectorProjection (new Line line.p1, points[i + 1]).toVector()
+    
+    p1 = new Point line.p1.x - v1.a, line.p1.y - v1.b 
+    p2 = new Point line.p1.x - v2.a, line.p1.y - v2.b
+    
+    for [a, b] in [[p2, points[i]], [p1, points[i + 1]]]    
+      s = (new Line a, b).toVector().scalarProjection vector
+      if s > lastS
+        pointToRemove = a # of b?
+      score += new Line a,b .lenght - s
+  
+  [score, points]
+  
 lines = connectTheDots points
-console.log lines
+
+scores = (calculateScores(line, points) for line in lines)
+
+for score in scores
+  console.log score[0], score[1]
 
 for line in lines
-  console.log '------------------------'
+  console.log '------------------------------------------------------------------'
   console.log line
   console.log sortPoints line, points
-  console.log '========================\n'
-
+  console.log '==================================================================\n'
+  
 #create some graphic image
 output = []
 for i in [0...10]
