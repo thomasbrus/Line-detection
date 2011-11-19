@@ -1,9 +1,7 @@
 _ = require 'underscore'
 
-{inspect} = require 'util'
-
 # Number of points
-n = 4
+n = 6
 
 paper =
   width:  640
@@ -50,39 +48,47 @@ class LineScore
     @points = _.sortBy points, (point) => @line.toVector().scalarProjection (new Line line.p1, point).toVector()
     
   calculate: ->
-    scores = []
+    weakestPoint
+    lowestScore
+    totalScore = 0
     
     # Walk through points pairwise
-    for i in [0...points.length - 1]
-      v1 = @line.toVector().vectorProjection (new Line line.p1, points[i]).toVector()
-      v2 = @line.toVector().vectorProjection (new Line line.p1, points[i + 1]).toVector()
+    for i in [0...@points.length - 1]
+      v1 = @line.toVector().vectorProjection (new Line line.p1, @points[i]).toVector()
+      v2 = @line.toVector().vectorProjection (new Line line.p1, @points[i + 1]).toVector()
 
       # Points projected on line
       pp1 = new Point line.p1.x - v1.a, line.p1.y - v1.b 
       pp2 = new Point line.p1.x - v2.a, line.p1.y - v2.b
 
       # Vectors from projected points to points
-      vectors = [(new Line pp2, points[i]).toVector(), (new Line pp1, points[i + 1]).toVector()]
+      vectors = [(new Line pp2, points[i]).toVector(), (new Line pp1, @points[i + 1]).toVector()]
       
       for vector, j in vectors
-        scores.push point: points[i + j], score: Math.sqr(vector.length()) / vector.scalarProjection @line.toVector()
-
-    scores
+        score = vector.scalarProjection(@line.toVector()) / Math.sqr vector.length()
+        
+        unless lowestScore? and score >= lowestScore
+          lowestScore = score
+          weakestPoint = @points[i + j]
+        
+        totalScore += score
+        
+    total:    totalScore
+    weakest:  weakestPoint
     
-  remove: (point) ->
-    @points = _.without points point
-    
+  removePoint: (point) ->
+    @points = (p for p in @points when !_.isEqual p, point)
 
 # Generate n random points
 points = for [1..n]
   new Point Math.randInt(paper.width), Math.randInt(paper.height)
 
-points = [
-  new Point 0, 2
-  new Point 8, 6
-  new Point 7, 1
-  new Point 3, 4
-]
+# points = [
+#   new Point 0, 2
+#   new Point 8, 6
+#   new Point 7, 1
+#   new Point 3, 4
+# ]
 
 # Find all (n choose 2) lines
 connectTheDots = (points) ->
@@ -93,52 +99,23 @@ connectTheDots = (points) ->
       lines.push new Line(points[i], points[i + j])
   lines
 
-###
-calculateScores = (line, points) ->
-  # Look at the line as a vector
-  lineVector = line.toVector()
-  
-  total = 0
-  scores = []
-  
-  # Sort points by the scalar projection of (the line from [line.p1] to [point] as vector) onto [vector]
-  _.sortBy points, (point) ->
-      lineVector.scalarProjection (new Line line.p1, point).toVector()
-      
-  # Walk through points pairwise
-  for i in [0...points.length - 1]
-    v1 = lineVector.vectorProjection (new Line line.p1, points[i]).toVector()
-    v2 = lineVector.vectorProjection (new Line line.p1, points[i + 1]).toVector()
-    
-    # Points projected on line
-    pp1 = new Point line.p1.x - v1.a, line.p1.y - v1.b 
-    pp2 = new Point line.p1.x - v2.a, line.p1.y - v2.b
-    
-    # Vectors from projected points to points
-    vectors = [(new Line pp2, points[i]).toVector(), (new Line pp1, points[i + 1]).toVector()]
-    
-    for vector, j in vectors
-      score = Math.sqr(vector.length()) / vector.scalarProjection lineVector
-      total += score
-      scores.push point: points[i + j], score: score
-      
-  scores: scores
-  total:  total
-
-###
-
 for line in connectTheDots points
-  console.log line
-  console.log (new LineScore line, points).calculate()
+  console.log 'Examaning line', line
+  console.log '----------------------------------------\n'
+  lineScore = new LineScore line, points
+  
+  while lineScore.points.length >= 2
+    result = lineScore.calculate()
+    console.log 'Points', lineScore.points
+    console.log 'Score', result.total
+    console.log 'Weakest point', result.weakest
+    lineScore.removePoint result.weakest
+    console.log ''
+  
+  console.log '----------------------------------------\n'
 
 
 ###
-for line in lines
-  console.log '------------------------------------------------------------------'
-  console.log line
-  console.log sortPoints line, points
-  console.log '==================================================================\n'
-
   
 #create some graphic image
 output = []
