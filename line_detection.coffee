@@ -35,7 +35,7 @@ class Vector
     
   # Scalar projection of [other] onto [this]
   scalarProjection: (other) ->
-    Vector.dotProduct(@, other) / @length() * other.length()
+    Vector.dotProduct(@, other) / @length()
     
   # Vector projection of [other] onto [this]
   vectorProjection: (other) ->
@@ -45,8 +45,12 @@ class Vector
 class LineScore
   
   constructor: (@line, @points) ->
-    @points = _.sortBy points, (point) => @line.toVector().scalarProjection (new Line line.p1, point).toVector()
-    
+    @points = LineScore.sort @line, @points
+  
+  @sort: (line, points) ->
+    _.sortBy points, (point) =>
+      line.toVector().scalarProjection (new Line line.p1, point).toVector()
+  
   calculate: ->
     weakestPoint
     lowestScore
@@ -73,7 +77,7 @@ class LineScore
         
         totalScore += score
         
-    total:    totalScore
+    total:    totalScore / Math.sqrt @points.length
     weakest:  weakestPoint
     
   removePoint: (point) ->
@@ -83,12 +87,12 @@ class LineScore
 points = for [1..n]
   new Point Math.randInt(paper.width), Math.randInt(paper.height)
 
-# points = [
-#   new Point 0, 2
-#   new Point 8, 6
-#   new Point 7, 1
-#   new Point 3, 4
-# ]
+points = [
+  new Point 0, 0
+  new Point 2, 8
+  new Point 6, 8
+  new Point 8, 0
+]
 
 # Find all (n choose 2) lines
 connectTheDots = (points) ->
@@ -100,20 +104,18 @@ connectTheDots = (points) ->
   lines
 
 for line in connectTheDots points
+  console.log '=========================================='
   console.log 'Examaning line', line
   console.log '----------------------------------------\n'
   lineScore = new LineScore line, points
   
-  while lineScore.points.length >= 2
+  while lineScore.points.length > 2
     result = lineScore.calculate()
     console.log 'Points', lineScore.points
     console.log 'Score', result.total
     console.log 'Weakest point', result.weakest
-    lineScore.removePoint result.weakest
     console.log ''
-  
-  console.log '----------------------------------------\n'
-
+    lineScore.removePoint result.weakest
 
 ###
   
