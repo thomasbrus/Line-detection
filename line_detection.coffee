@@ -93,6 +93,7 @@ calcScoreAndRemovePoint = (line, points) ->
   
 lines = connectTheDots points
 
+###
 scores = (calculateScores(line, points) for line in lines)
 
 for score in scores
@@ -103,6 +104,8 @@ for line in lines
   console.log line
   console.log sortPoints line, points
   console.log '==================================================================\n'
+
+###
   
 #create some graphic image
 output = []
@@ -117,7 +120,7 @@ for point in points
 
 text = ' '
 for i in [0...10]
-  text += i
+  text += i + ' '
 text +=  '\n'
 
 i = 0
@@ -125,7 +128,7 @@ for op in output
   text += i++
 
   for r in op
-    text += r
+    text += r + ' '
 
   text += '\n'
 
