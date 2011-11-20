@@ -33,7 +33,7 @@ class Vector
   constructor: (@a, @b) ->
     
   length: ->
-    Math.sqrt Math.sqr @a + Math.sqr @b
+    Math.sqrt Math.sqr(@a) + Math.sqr (@b)
   
   @dotProduct: (v1, v2) ->
     v1.a * v2.a + v1.b * v2.b
@@ -70,12 +70,15 @@ points = for [1..n]
   new Point Math.randInt(paper.width), Math.randInt(paper.height)
 
 points = [
-  new Point 0, 0
-  new Point 4, 0
+  new Point 5, 0
   new Point 5, 5
-  new Point 6, 1
-  new Point 10, 0
+  new Point 5, 10
 ]
+
+v1 = new Vector 0, 5
+v2 = new Vector 4, 4
+
+console.log v1.length(), v2.length(), v1.scalarProjection v2
 
 # Find all (n choose 2) lines
 connectTheDots = (points) ->
