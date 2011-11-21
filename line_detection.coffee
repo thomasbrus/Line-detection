@@ -42,7 +42,7 @@ class Vector
     Vector.dotProduct(@, other) / @length()
     
   vectorProjection: (other) ->
-    scalar = Vector.dotProduct(@, other) / Vector.dotProduct(@, @)
+    scalar = Vector.dotProduct(@, other) / Math.sqr(@length())
     new Vector(@a * scalar, @b * scalar)
   
 class LineScore
