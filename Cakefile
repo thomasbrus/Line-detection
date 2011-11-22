@@ -1,22 +1,5 @@
-task 'build', 'Compile CoffeeScript source files', ->
-  true
-
-task 'watch', 'Recompile CoffeeScript source files when modified', ->
-  true
-
-task 'test', 'Run tests', ->
-  true
-  
-task 'start', 'Start production server', ->
-  true
-  
-task 'dev', 'Start development server', ->
-  true
-  
-  
-  
 fs            = require 'fs'
-{print}       = require 'sys'
+{print}       = require 'util'
 {spawn, exec} = require 'child_process'
 {watchTree}   = require 'watch-tree'
 
@@ -47,9 +30,11 @@ task 'build', 'Compile CoffeeScript source files', ->
   build()
 
 task 'start', 'Run server', ->
+  process.env["NODE_ENV"] = "production"
   start()
 
 task 'dev', 'Run server and recompile when source is modified', ->
+  process.env["NODE_ENV"] = "development"
   start()
   watcher = watchTree 'src', 'sample-rate': 5
   watcher.on 'fileModified', start
