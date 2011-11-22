@@ -1,0 +1,14 @@
+*** dependencies ***
+
+-- globally --
+
+* coffee
+* npm (this one first)
+
+-- local --
+
+* coffeekup
+* connect-assets
+* express
+* stylus
+* underscore
