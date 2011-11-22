@@ -1,3 +1,5 @@
+# Line Detection
+
 ## Dependencies
 
 ### Global
