@@ -1,12 +1,19 @@
-assets  = require 'connect-assets'
-express = require 'express'
-_ = require 'underscore'
+assets      = require 'connect-assets'
+express     = require 'express'
+coffeekup   = require 'coffeekup'
+_           = require 'underscore'
 
-# Do some express stuff (or maybe use Zappa.coffee?)
+app = express.createServer()
 
-app = express.createServer();
+app.use require('connect-assets')()
+
+app.set 'view engine', 'coffee'
+app.register '.coffee', coffeekup.adapters.express
+
 
 app.get '/', (req, res) ->
-  res.send 'Hello World'
+  res.render 'index'
   
 app.listen 3000
+
+console.log "Started web server on port 3000..."
