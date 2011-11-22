@@ -1,11 +1,11 @@
-*** dependencies ***
+## Dependencies
 
--- globally --
+### Global
 
 * coffee-script
-* npm (this one first)
+* npm
 
--- local --
+### Local
 
 * coffeekup
 * connect-assets
