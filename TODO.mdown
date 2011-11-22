@@ -1,0 +1,3 @@
+# Todo
+
+- lib/ en src/ verwijderen en app.coffee maken. Cakefile updaten zodat het 'coffee app.coffee' uitvoert. Zie https://github.com/masteinhauser/zabbix-slides.
