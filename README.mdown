@@ -4,15 +4,13 @@ Demonstration of a line detection algorithm
 
 ## Dependencies
 
-### Global
++ Global
+	* coffee-script
+	* npm
 
-* coffee-script
-* npm
-
-### Local
-
-* coffeekup
-* connect-assets
-* express
-* stylus
-* underscore
++ Local
+	* coffeekup
+	* connect-assets
+	* express
+	* stylus
+	* underscore

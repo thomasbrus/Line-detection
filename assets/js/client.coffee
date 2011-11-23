@@ -6,4 +6,4 @@ $ ->
   # Do jQuery (and Raphael) stuff here
   
 findSolution = ->
-  (new LineDetection points).solve()
+  solution = LineDetection.solve(points)

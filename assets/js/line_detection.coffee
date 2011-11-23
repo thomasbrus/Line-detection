@@ -42,7 +42,7 @@ class Vector
     Vector.dotProduct(@, other) / @length()
     
   vectorProjection: (other) ->
-    scalar = Vector.dotProduct(@, other) / Math.sqr(@length())
+    scalar = Vector.dotProduct(@, other) / Math.sqr(@length())    
     new Vector(@a * scalar, @b * scalar)
   
 class LineScore
@@ -105,7 +105,7 @@ bestLines =
         unless bestLine?.score? and scores.sum() <= bestLine.score
           # Store current best score
           bestLine = score: scores.sum(), points: lineScore.points, line: line
-    
+
         # Remove the point with the lowest score
         lineScore.remove lineScore.points[weakest] if i > 2
 

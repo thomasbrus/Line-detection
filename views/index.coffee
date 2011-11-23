@@ -1,3 +1,3 @@
 header ->
   h1 'Title here'
-  p 'Hey hello'
+  p 'Hello World'
