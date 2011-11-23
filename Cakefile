@@ -1,7 +1,6 @@
 fs            = require 'fs'
 {print}       = require 'util'
 {spawn}       = require 'child_process'
-{watchTree}   = require 'watch-tree'
 
 coffee = null
 
@@ -14,13 +13,15 @@ stream = (command, options, callback) ->
 
 start = ->
   coffee?.kill()
+  console.log "Started web server on port 3000 at #{(new Date()).toTimeString()}"
   coffee = stream 'coffee', ['app.coffee']
 
 task 'start', 'Run server', ->
   process.env["NODE_ENV"] = 'production'
   start()
 
-task 'dev', 'Run server and recompile when source is modified', ->
+task 'dev', 'Run server and restart when source is modified', ->
   process.env["NODE_ENV"] = 'development'
   start()
-  fs.watch 'app.coffee', -> start()
+  fs.watchFile 'app.coffee', (curr, prev) ->
+    start() if curr.mtime > prev.mtime

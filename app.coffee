@@ -14,5 +14,3 @@ app.get '/', (req, res) ->
   res.render 'index'
 
 app.listen 3000
-
-console.log "Started web server on port 3000: http://localhost:3000/"
