@@ -32,7 +32,8 @@ class exports.Vector
     Vector.dotProduct(@, other) / @length()
     
   vectorProjection: (other) ->
-    scalar = Vector.dotProduct(@, other) / Math.sqr(@length())    
+    # Watch out for precision loss with (√x)²
+    scalar = Vector.dotProduct(@, other) / (Math.sqr(@a) + Math.sqr(@b))
     new Vector @a * scalar, @b * scalar
   
 class exports.LineScore
