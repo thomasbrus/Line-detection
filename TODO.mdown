@@ -1,6 +1,12 @@
 # Todo
 
-+ Tests opzetten. Unit tests zijn het belangrijkst.
-+ Demo pagina opzetten. Er moet een titel, hele korte uitleg en een rechthoek (het papier) aanwezig zijn. Er zal ook moeten worden nagedacht over de gebruikersinteractie.
-+ http://www.slideshare.net/TrevorBurnham/coffee-script-design-patterns
-+ Cake commando uitleg in README
+- Unit tests voor LineScore
+- Demo pagina opzetten. Inclusief titel, korte uitleg paper en UI controls.
+- Design patterns toepassen [CoffeeScript Design Patterns](http://www.slideshare.net/TrevorBurnham/coffee-script-design-patterns)
+- Integration tests
+- README uitbreiden met cake tasks uitleg
+
+# Done
+
++ Unit tests schrijven voor Point, Line en Vector klassen
++ Cakefile met dev, start en test tasks.
