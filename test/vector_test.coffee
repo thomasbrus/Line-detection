@@ -1,9 +1,9 @@
-vows                    = require 'vows'
-assert                  = require 'assert'
-{Point, Line, Vector}   = require '../assets/js/line_detection'
+vows        = require 'vows'
+assert      = require 'assert'
+{Vector}    = require '../assets/js/line_detection'
 
 dotProduct = (topics) ->
- Vector.dotProduct topics[0], topics[1]
+  Vector.dotProduct topics[0], topics[1]
 
 scalarProjection = (topics) ->
   topics[0].scalarProjection topics[1]
