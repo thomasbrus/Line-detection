@@ -1,6 +1,6 @@
 # Line Detection
 
-Demonstration of a line detection algorithm
+Demonstration of a line detection algorithm.
 
 ## Dependencies
 
