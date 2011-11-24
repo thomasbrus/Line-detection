@@ -1,12 +1,12 @@
 # Todo
 
-- Unit tests voor LineScore
-- Demo pagina opzetten. Inclusief titel, korte uitleg paper en UI controls.
-- Design patterns toepassen [CoffeeScript Design Patterns](http://www.slideshare.net/TrevorBurnham/coffee-script-design-patterns)
-- Integration tests
-- README uitbreiden met cake tasks uitleg
+* Unit tests voor LineScore
+* Demo pagina opzetten. Inclusief titel, korte uitleg paper en UI controls.
+* Design patterns toepassen [CoffeeScript Design Patterns](http://www.slideshare.net/TrevorBurnham/coffee-script-design-patterns)
+* Integration tests
+* README uitbreiden met cake tasks uitleg
 
-# Done
+## Done
 
 + Unit tests schrijven voor Point, Line en Vector klassen
 + Cakefile met dev, start en test tasks.
