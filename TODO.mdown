@@ -1,3 +1,5 @@
 # Todo
 
-- lib/ en src/ verwijderen en app.coffee maken. Cakefile updaten zodat het 'coffee app.coffee' uitvoert. Zie https://github.com/masteinhauser/zabbix-slides.
+- Demo pagina opzetten. Er moet een titel, hele korte uitleg en een rechthoek (het papier) aanwezig zijn. Er zal ook moeten nagedacht over de gebruikersinteractie.
+- Tests opzetten. Unit tests zijn het belangrijkst.
+- http://www.slideshare.net/TrevorBurnham/coffee-script-design-patterns
