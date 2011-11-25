@@ -6,7 +6,8 @@ html ->
     meta(name: 'description', content: @description) if @description?
 
     css 'style'
-    js 'client'
 
   body ->
     @body
+    
+  js 'client'
