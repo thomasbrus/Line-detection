@@ -1,7 +1,8 @@
 # Todo
 
+- jQuery en Raphaël in public/js/ plaatsen
 - Unit tests voor LineScore
-- Demo pagina opzetten. Inclusief titel, korte uitleg paper en UI controls.
+- Demo pagina opzetten. Inclusief titel, korte uitleg, paper en UI controls.
 - Design patterns toepassen [CoffeeScript Design Patterns](http://www.slideshare.net/TrevorBurnham/coffee-script-design-patterns)
 - Integration tests
 - README uitbreiden met cake tasks uitleg
