@@ -26,7 +26,7 @@ test = (watch) ->
       options = options.concat('test/' + file) if /.+\_test\.coffee/.test file
 
     vows = stream 'vows', options
-  
+
 task 'start', 'Run server', ->
   process.env.NODE_ENV = 'production'
   start()
