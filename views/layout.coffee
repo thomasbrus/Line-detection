@@ -5,9 +5,7 @@ html ->
     title 'Line Detection Demonstration'
     meta(name: 'description', content: @description) if @description?
 
-    css 'style'
-
+    css('style') + js('client')
+    
   body ->
     @body
-    
-  js 'client'
