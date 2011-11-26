@@ -4,7 +4,7 @@ Demonstration of a line detection algorithm.
 
 ## Algorithm
 
-Given a set of points P
+Given a set of points P.
 For all sub sets P' where |P'| is 2
 For both points p in P'
 
