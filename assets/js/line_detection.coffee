@@ -3,17 +3,18 @@ _ = require 'underscore' if require?
 
 exports ?= window
 
-# Helper methods
 Math.sqr = (n) -> n * n
 Array::sum = -> @reduce ((a, b) -> a + b), 0
+Array::remove = (e...) -> _.without @, e...
+Array::add = (e...) -> @concat e...
 
-class exports.Point
+exports.Point = class Point
   constructor: (@x, @y) ->
   
   distanceTo: (other) ->
     Math.sqrt Math.sqr(other.x - @x) + Math.sqr(other.y - @y)
 
-class exports.Line
+exports.Line = class Line
   constructor: (@p1, @p2) ->
   
   length: ->
@@ -22,7 +23,7 @@ class exports.Line
   toVector: ->
     new exports.Vector @p2.x - @p1.x, @p2.y - @p1.y
 
-class exports.Vector
+exports.Vector = class Vector
   constructor: (@a, @b) ->
     
   length: ->
@@ -38,27 +39,23 @@ class exports.Vector
     # Watch out for precision loss with (√x)²
     scalar = Vector.dotProduct(@, other) / (Math.sqr(@a) + Math.sqr(@b))
     new Vector @a * scalar, @b * scalar
-  
-class exports.LineScore
-  
-  constructor: (@line, @points) ->
-    @points = LineScore.sort @line, @points
-  
-  # Sort points along this line
-  @sort: (line, points) ->
-    _.sortBy points, (point) =>
-      line.toVector().scalarProjection (new Line line.p1, point).toVector()
-  
-  # Calculate a score for each line segment in this line
-  calculate: ->
-    for i in [0...@points.length - 1]
-      vector =  (new Line @points[i], @points[i + 1]).toVector()
-      scalar = @line.toVector().scalarProjection vector      
-      scalar / vector.length()
 
-  remove: (point) ->
-    @points = (p for p in @points when not _.isEqual p, point)
+exports.solve = solve = (points) ->
+  
+  for i in [0...points.length - 1]
+    for j in [1...points.length - i]
+      p1 = points[i]
+      p2 = points[i + j]
 
-exports.solve = (points) ->
-  # Solve!
-
+      for [p1, p2] in [[p1, p2], [p2, p1]]
+        considered = _.without points, p1, p2
+        
+        result = [p1, p2]
+        
+        for p in considered
+          best = p
+          
+          # Compare with current line segment chain?
+          
+        considered = considered.remove best
+        result = result.add p
