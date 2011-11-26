@@ -4,13 +4,11 @@ Demonstration of a line detection algorithm.
 
 ## Algorithm
 
-Given a set of points P.
-For all sub sets P' where |P'| is 2
-For both points p in P'
+Given a set of points P. For all sub sets P' where |P'| is 2. For both points p in P':
 
 1. Consider the set of points Q: P - P'
 2. Consider the result list R: [p1, p2]
-3. Choose a point q from Q that is 'in line' with the line chain R
+3. Choose a point q from Q that is best 'in line' with the line chain R
 4. Remove q from Q
 5. Add q to R
 
