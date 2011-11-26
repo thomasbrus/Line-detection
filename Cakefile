@@ -14,7 +14,7 @@ stream = (command, options, callback) ->
 start = ->
   coffee?.kill()
   console.log "Started web server on port 3000 at #{(new Date()).toTimeString()}"
-  coffee = stream 'coffee', ['server.coffee']
+  coffee = stream 'coffee', ['app.coffee']
   
 test = (watch) ->
   vows?.kill()
@@ -35,7 +35,7 @@ task 'dev', 'Run server and restart when source is modified', ->
   process.env.NODE_ENV = 'development'
   start()
   test(true)
-  fs.watchFile 'server.coffee', (curr, prev) ->
+  fs.watchFile 'app.coffee', (curr, prev) ->
     start() if curr.mtime > prev.mtime
     
 task 'test', 'Run all tests', (options) ->
