@@ -17,7 +17,7 @@ class exports.Line
   constructor: (@p1, @p2) ->
   
   length: ->
-    if _.isEqual @p1, @p2 then null else @p1.distanceTo @p2
+    @p1.distanceTo @p2
     
   toVector: ->
     new exports.Vector @p2.x - @p1.x, @p2.y - @p1.y
@@ -57,9 +57,8 @@ class exports.LineScore
       scalar / vector.length()
 
   remove: (point) ->
-    @points = (p for p in @points when !_.isEqual p, point)
+    @points = (p for p in @points when not _.isEqual p, point)
 
 exports.solve = (points) ->
   # Solve!
-  
-console.log 'Yes!'
+
