@@ -26,15 +26,5 @@ vows.describe('Line')
         
       'should translate to the vector ⟨-30, -30⟩': (topic) ->
         assert.deepEqual topic.toVector(), (new Vector -30, -30)
-  
-  .addBatch                 
-    'But a line from (0, 0) to (0, 0)':
-      topic: -> createLine 0, 0, 0, 0
-        
-      'should not have a length': (topic) ->
-        assert.isNull topic.length()
-        
-      'should translate to the null vector': (topic) ->
-        assert.deepEqual topic.toVector(), (new Vector 0, 0)
         
   .export(module)
