@@ -1,4 +1,7 @@
-_ = require 'underscore'
+#= require lib/underscore-min
+_ = require 'underscore' if require?
+
+exports ?= window
 
 # Helper methods
 Math.sqr = (n) -> n * n
@@ -58,3 +61,5 @@ class exports.LineScore
 
 exports.solve = (points) ->
   # Solve!
+  
+console.log 'Yes!'

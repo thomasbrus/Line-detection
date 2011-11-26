@@ -1,5 +1,5 @@
-#= require raphael
-#= require jquery-1.7.1
+#= require lib/jquery-1.7.1.min
+#= require lib/raphael-min
 #= require line_detection
 
 $ ->
@@ -12,6 +12,3 @@ $ ->
       $(this).removeClass 'selected'
       # should remove point from array
       #removePoint this
-
-findSolution = ->
-  solution = LineDetection.solve(points)
