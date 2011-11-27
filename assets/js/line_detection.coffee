@@ -21,7 +21,7 @@ exports.Line = class Line
     @p1.distanceTo @p2
     
   toVector: ->
-    new exports.Vector @p2.x - @p1.x, @p2.y - @p1.y
+    new Vector @p2.x - @p1.x, @p2.y - @p1.y
 
 exports.Vector = class Vector
   constructor: (@a, @b) ->
