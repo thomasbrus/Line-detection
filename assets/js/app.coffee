@@ -3,7 +3,7 @@
 #= require line_detection
 
 $ ->
-  paper = new Raphael $('canvas').offset().left, $('canvas').offset().top, 520, 520
+  paper = new Raphael $('#canvas').offset().left, $('#canvas').offset().top, 520, 520
   raster = new Raster(paper)
 
   $('svg').on 'click', (e) ->

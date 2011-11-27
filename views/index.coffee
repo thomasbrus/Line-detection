@@ -10,4 +10,4 @@ form ->
   label for: 'add', '+'
   button id: 'reset', 'I screwed up, sorry!'
 
-canvas ''
+div id: 'canvas'
