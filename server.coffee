@@ -16,4 +16,4 @@ server.get '/', (req, res) ->
   res.render 'index'
 
 # Listen on port 3000
-server.listen 3000
+server.listen (process.env.PORT || 3000)
