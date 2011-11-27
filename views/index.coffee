@@ -10,8 +10,4 @@ form ->
   label for: 'add', '+'
   button id: 'reset', 'I screwed up, sorry!'
 
-table ->
-  for i in [1..20]
-    tr ->
-      for i in [1..20]
-        td '&nbsp;'
+canvas ''
