@@ -40,22 +40,33 @@ exports.Vector = class Vector
     scalar = Vector.dotProduct(@, other) / (Math.sqr(@a) + Math.sqr(@b))
     new Vector @a * scalar, @b * scalar
 
-exports.solve = solve = (points) ->
+exports.solve = solve = (points) -> 
   
+  bestSolution = null
+  
+  # Find all lines
   for i in [0...points.length - 1]
     for j in [1...points.length - i]
       p1 = points[i]
       p2 = points[i + j]
-
-      for [p1, p2] in [[p1, p2], [p2, p1]]
-        considered = _.without points, p1, p2
-        
-        result = [p1, p2]
-        
-        for p in considered
-          best = p
-          
-          # Compare with current line segment chain?
-          
-        considered = considered.remove best
-        result = result.add p
+      line = new Line p1, p2
+      __length = line.length()
+      
+      # Exclude points that are too far away
+      included = (p for p in points if p.distanceTo p1 < __length && p.distanceTo p2 < __length)
+      
+      # Now decide which point to eliminate
+      scores = []
+      for p in included
+        scores.push calcScore(line, p)
+      
+      # Keep track of current best solution
+      unless bestSolution? and solution < bestSolution
+        bestSolution = [line, included, scores.sum()]
+      
+      # Remove the 'weakest' point
+      included.remove scores.min()
+      
+  return bestSolution
+      
+      
