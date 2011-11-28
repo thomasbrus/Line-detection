@@ -40,6 +40,10 @@ exports.Vector = class Vector
     scalar = Vector.dotProduct(@, other) / (Math.sqr(@a) + Math.sqr(@b))
     new Vector @a * scalar, @b * scalar
 
+__calcScore = (line, p) ->
+  # Measure length from p to line
+  1
+
 exports.solve = solve = (points) -> 
   
   bestSolution = null
@@ -58,13 +62,12 @@ exports.solve = solve = (points) ->
       # Now decide which point to eliminate
       scores = []
       for p in included
-        scores.push calcScore(line, p)
+        scores.push __calcScore(line, p)
       
       # Keep track of current best solution
       unless bestSolution? and solution < bestSolution
-        bestSolution = [line, included, scores.sum()]
+        bestSolution = [line, included, scores.sum() * __length]
       
-      # Remove the 'weakest' point
       included.remove scores.min()
       
   return bestSolution
