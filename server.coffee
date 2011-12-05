@@ -7,6 +7,9 @@ server = express.createServer()
 server.use express.logger('dev')
 server.use require('connect-assets')(buildDir: '.builtAssets')
 
+# Static image serving
+server.use(express.static(__dirname + '/public'));
+
 # Settings
 server.set 'view engine', 'coffee'
 server.register '.coffee', coffeekup.adapters.express
