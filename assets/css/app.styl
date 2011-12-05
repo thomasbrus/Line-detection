@@ -1,14 +1,89 @@
 body
-  background #ddd
+  background url('/images/ruler.jpg') no-repeat right top, #e8ebea url('/images/graph_paper.jpg')
   font-family Helvetica, Arial
+  margin 0
+  padding 20px
+  height: 760px
+  position relative
 
-table
-  background #eee
+#eraser
+  position absolute
+  left 0
+  bottom 0
+  width 194px
+  height 139px
+  background url('/images/eraser.png') no-repeat
+  z-index 100
+  display block
+  
+#eraser:hover
+  background-image url('/images/eraser_hover.png')
 
-td
-  border 1px dotted gray
-  width 20px
-  height 20px
+h1
+  font-family 'Handwriting Draft'
+  font-size 30px
+  color #525252
+  margin 20px
+  padding 0
+  
+.placeholder
+  font-family 'AirCut'
+  font-size 24px
+  color rgba(0, 0, 0, 0.4)
+  text-align center
+  height 30px
+  line-height 30px
+  top 275px
+  width 100%
+  left 0
+  position absolute
+  font-style italic
+  font-weight normal
+  margin 0
+  
+p
+  font-family 'AirCut'
+  font-size 14px
+  color #000
+  max-width 480px
+  margin 20px
+  padding 0
+  
+  
+.link
+  background url('/images/underline.png') left bottom repeat-x
+  padding-bottom 2px
+  display block
+  float left
+  color #000
+  text-decoration none
 
-.selected
-  background-color black
+.link:hover
+  background-image url('/images/underline_hover.png')
+  color #4b9883
+
+#region
+  height 580px
+  margin 0 200px 40px 0
+  position relative
+  max-width 820px
+  
+#region > .left,
+#region > .right
+  width 40px
+  height 580px
+  position absolute
+  top 0
+
+#region > .left
+  background url('/images/region_left.png') no-repeat
+  left 0
+  
+#region > .right
+  background url('/images/region_right.png') no-repeat
+  right 0
+    
+#region > .middle
+  background url('/images/region_middle.png') repeat-x
+  margin 0 40px 0 40px
+  height 580px
