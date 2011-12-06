@@ -11,9 +11,10 @@ header ->
       '.'
       
 section '#region', ->
-  div '.left', ''
-  div '.middle', ''
-  div '.right', ''
+  canvas id: 'canvas', width: '300', height: '540'
+  div class: 'left'
+  div class: 'middle'
+  div class: 'right'
   h3 '.placeholder', 'Voeg een punt toe om te beginnen.'
 
 a '#eraser', href: '#'
