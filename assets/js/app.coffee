@@ -3,4 +3,10 @@
 #= require line_detection
 
 $ ->
+  resizeCanvas()
   $('#eraser').click -> false
+  $(window).resize resizeCanvas
+  
+resizeCanvas = ->
+  console.log 'bla'
+  $('#canvas').attr('width', $('#region').width() - 40)
