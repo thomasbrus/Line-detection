@@ -68,7 +68,7 @@ exports.solve = solve = (points) ->
       unless bestSolution? and solution < bestSolution
         bestSolution = [line, included, scores.sum() * __length]
       
-      included.remove scores.min()
+      included.remove scores.min()      
       
   return bestSolution
       

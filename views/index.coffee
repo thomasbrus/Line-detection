@@ -15,6 +15,6 @@ section '#region', ->
   div class: 'left'
   div class: 'middle'
   div class: 'right'
-  h3 '.placeholder', 'Voeg een punt toe om te beginnen.'
+  h3 '#placeholder', 'Voeg een punt toe om te beginnen.'
 
-a '#eraser', href: '#'
+a '#eraser', href: '/'
