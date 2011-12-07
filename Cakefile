@@ -24,7 +24,6 @@ test = (watch) ->
   fs.readdir 'test', (err, files) ->
     for file in files
       options = options.concat('test/' + file) if /.+\_test\.coffee/.test file
-
     vows = stream 'vows', options
 
 task 'start', 'Run server', ->
@@ -34,7 +33,6 @@ task 'start', 'Run server', ->
 task 'dev', 'Run server and restart when source is modified', ->
   process.env.NODE_ENV = 'development'
   start()
-  test(true)
   fs.watchFile 'server.coffee', (curr, prev) ->
     start() if curr.mtime > prev.mtime
     
