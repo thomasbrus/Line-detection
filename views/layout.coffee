@@ -4,6 +4,7 @@ html ->
     meta charset: 'utf-8'
     title 'Line Detection Demonstration'
     meta(name: 'description', content: @description) if @description?
-    css('font-face') + css('app') + js('app')
+    css('app') + js('line_detection') + js('app')
+    
   body ->
     @body
