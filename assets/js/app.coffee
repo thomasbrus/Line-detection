@@ -1,4 +1,5 @@
 #= require lib/jquery-1.7.1.min
+#= require lib/underscore-min
 #= require line_detection
 
 $ ->
@@ -31,9 +32,9 @@ class Canvas
       x = @mouseX event
       y = @mouseY event
       @addPoint x, y
-      @drawPoint x, y
       @solution = new Solution(@points).find()
-      @drawLine(@solution.line) if @solution?
+      console.log @solution
+      @redraw()
     
     @resize()
     
@@ -43,7 +44,11 @@ class Canvas
   redraw: (event) ->
     @clear()
     @drawPoint p.x, p.y, p.alpha for p in @points
-    @drawLine(@solution.line) if @solution?
+    
+    if @solution?
+      @markPoints(@solution.points)
+      @drawLine(new Line _(@solution.points).first(), _(@solution.points).last())
+    
     @drawCursor @mouseX(event), @mouseY(event) if event?
     
   mouseX: (event) ->
@@ -53,7 +58,9 @@ class Canvas
     event.pageY - @canvas.offset().top
   
   clear: (all) ->
-    @points = [] if all?
+    if all?
+      @points = []
+      @solution = null
     @context.clearRect 0, 0, @canvas.width(), @canvas.height()
     
   drawCursor: (x, y, radius = 8, alpha = 0.2) ->
@@ -62,7 +69,11 @@ class Canvas
   drawPoint: (x, y, alpha = 0.6) ->
     @drawCircle x, y, 4, "white"
     @drawCircle x, y, 3, "black"
-    
+  
+  markPoints: (points) ->
+    for point in points
+      @drawCircle point.x, point.y, 8, "yellow"  
+  
   drawCircle: (x, y, radius, fill, stroke) ->
     @context.fillStyle = fill
     @context.strokeStyle = stroke if stroke?
