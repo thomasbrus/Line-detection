@@ -57,20 +57,43 @@ exports.Solution = class Solution
         lines.push new Line @points[i], @points[i + j]
     lines
     
-  find: ->
-    bestSolution = null
+  sortPoints: (line) ->
+    _.sortBy @points, (point) ->
+      line.toVector().scalarProjection (new Line line.p1, point).toVector()
     
-    for line in @lines
-      score = 0
-      considered = _.without @points, line.p1, line.p2
+  find: ->    
+    for line in @lines      
+      # Sort considered points along line
+      considered = @sortPoints(line)
       
-      while considered.length > 0
-        scores = ({ point: point, distance: line.distanceTo point } for point in considered)
-        lineScore = (1 / _.foldl scores, ((count, score) -> count + score.distance), 0)# / considered.length
+      # Repeat till only line.p1 and line.p2 are left
+      while considered.length > 2
         
-        unless bestSolution? and lineScore <= bestSolution.score
-          bestSolution = line: line, points: considered, score: lineScore
+        # Initial score for all points is zero
+        scores = (0 for i in [0...considered.length])
         
-        considered = considered.remove _.max(scores, (score) -> score.distance).point
+        for i in [0...considered.length - 1]
+          for j in [0..1]
+            point = considered[i + j]
+            other = considered[i + (1 - j)]
+            projection = line.toVector().scalarProjection (new Line point, other).toVector()
+            distance = point.distanceTo other
+            score = Math.round(Math.abs(projection) - distance)
+            scores[i + j] += score
+            
+            # Assign score twice to start and end points
+            scores[i + j] *= 2 if ((i + j) % considered.length - 1) == 0
+            
+            # Make sure that line.p1 and line.p2 never have the lowest score
+            scores[i + j] = Infinity if (considered[i + j] is line.p1 || considered[i + j] is line.p2)
+        
+        linescore = _(scores).without(Infinity).sum()
+        
+        # Decide whether this is the best solution so far        
+        unless bestSolution? and linescore <= bestSolution.score
+          bestSolution = score: linescore, points: considered, line: line
+
+        # Remove the point that deviates the most
+        considered = considered.remove considered[scores.indexOf Math.min(scores...)]
 
     return bestSolution
