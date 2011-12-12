@@ -1,16 +1,3 @@
-# Line Detection
+# Line Detection Experiment
 
-Demonstration of a line detection algorithm.
-
-## Dependencies
-
-+ Global
-	* coffee-script
-	* npm
-
-+ Local
-	* coffeekup
-	* connect-assets
-	* express
-	* stylus
-	* underscore
+This is our try on solving the problem described in the paper of Maarten Fokkinga, 'Hough Transform'. We wanted to seek our own solution and not use the Hough Transform.
