@@ -48,52 +48,29 @@ exports.Vector = class Vector
 
 exports.Solution = class Solution
   constructor: (@points) ->
-    @lines = @determineLines()
+    @lines = @allLines()
 
-  determineLines: ->
+  # All sets of two points a.k.a. all lines
+  allLines: ->
     lines = []
     for i in [0...@points.length - 1]
       for j in [1...@points.length - i]
         lines.push new Line @points[i], @points[i + j]
     lines
-    
-  sortPoints: (line) ->
-    _.sortBy @points, (point) ->
-      line.toVector().scalarProjection (new Line line.p1, point).toVector()
-    
-  find: ->    
-    for line in @lines      
-      # Sort considered points along line
-      considered = @sortPoints(line)
+
+  find: ->
+    for line in @lines
+      linescore = 0
       
-      # Repeat till only line.p1 and line.p2 are left
-      while considered.length > 2
-        
-        # Initial score for all points is zero
-        scores = (0 for i in [0...considered.length])
-        
-        for i in [0...considered.length - 1]
-          for j in [0..1]
-            point = considered[i + j]
-            other = considered[i + (1 - j)]
-            projection = line.toVector().scalarProjection (new Line point, other).toVector()
-            distance = point.distanceTo other
-            score = Math.round(Math.abs(projection) - distance)
-            scores[i + j] += score
-            
-            # Assign score twice to start and end points
-            scores[i + j] *= 2 if ((i + j) % considered.length - 1) == 0
-            
-            # Make sure that line.p1 and line.p2 never have the lowest score
-            scores[i + j] = Infinity if (considered[i + j] is line.p1 || considered[i + j] is line.p2)
-        
-        linescore = _(scores).without(Infinity).sum()
-        
-        # Decide whether this is the best solution so far        
-        unless bestSolution? and linescore <= bestSolution.score
-          bestSolution = score: linescore, points: considered, line: line
-
-        # Remove the point that deviates the most
-        considered = considered.remove considered[scores.indexOf Math.min(scores...)]
-
+      # Edge detection should be used here to
+      # determine which points are on the line
+      threshold = line.length() * 0.1
+      
+      for point in @points
+        distance = line.distanceTo(point)
+        linescore += 1 - (distance / line.length()) if distance <= threshold
+      
+      unless bestSolution? and linescore < bestSolution.score
+        bestSolution = score: linescore, line: line
+      
     return bestSolution
