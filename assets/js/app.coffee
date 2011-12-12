@@ -46,8 +46,7 @@ class Canvas
     @drawPoint p.x, p.y, p.alpha for p in @points
     
     if @solution?
-      @markPoints(@solution.points)
-      @drawLine(new Line _(@solution.points).first(), _(@solution.points).last())
+      @drawLine @solution.line
     
     @drawCursor @mouseX(event), @mouseY(event) if event?
     
@@ -69,10 +68,6 @@ class Canvas
   drawPoint: (x, y, alpha = 0.6) ->
     @drawCircle x, y, 4, "white"
     @drawCircle x, y, 3, "black"
-  
-  markPoints: (points) ->
-    for point in points
-      @drawCircle point.x, point.y, 8, "yellow"  
   
   drawCircle: (x, y, radius, fill, stroke) ->
     @context.fillStyle = fill
