@@ -68,9 +68,9 @@ exports.Solution = class Solution
       
       for point in @points
         distance = line.distanceTo(point)
-        linescore += 1 - (distance / line.length()) if distance <= threshold
+        linescore += 2 - (distance / line.length()) if distance <= threshold
       
-      unless bestSolution? and linescore < bestSolution.score
+      unless bestSolution? and linescore <= bestSolution.score
         bestSolution = score: linescore, line: line
       
     return bestSolution

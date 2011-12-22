@@ -67,7 +67,7 @@ class Canvas
     
   drawPoint: (x, y, alpha = 0.6) ->
     @drawCircle x, y, 4, "white"
-    @drawCircle x, y, 3, "black"
+    @drawCircle x, y, 3, "#666"
   
   drawCircle: (x, y, radius, fill, stroke) ->
     @context.fillStyle = fill
@@ -79,7 +79,8 @@ class Canvas
     @context.stroke() if stroke?
 
   drawLine: (line) ->
-    @context.strokeStyle = "red"
+    @context.strokeStyle = "#999"
+    @context.lineWidth = 3
     @context.beginPath()
     @context.moveTo line.p1.x, line.p1.y
     @context.lineTo line.p2.x, line.p2.y
