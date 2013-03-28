@@ -2,7 +2,7 @@ header ->
   h1 'Line Detection Experiment'
   section '.description', ->
     p 'Op deze pagina kunt u onze poging tot een lijn-
-    detectie algoritme uittesten. Het is gebaseerd op de Hough Transform
+    detectie algoritme uittesten. <br />Het is gebaseerd op de Hough Transform
     en de paper van M. Fokkinga.'
 
     p '.links', ->
