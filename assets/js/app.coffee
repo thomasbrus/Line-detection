@@ -2,6 +2,9 @@
 #= require lib/underscore-min
 #= require line_detection
 
+# Preload eraser hover image
+(new Image()).src = '/images/eraser_hover.png'
+
 $ ->
   canvas = new Canvas($('#canvas'))
   
